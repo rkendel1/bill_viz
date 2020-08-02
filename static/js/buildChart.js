@@ -1,7 +1,9 @@
 ////script not referenced in index yet
 
 d3.json("/votes").then(function (data) { //replace csv with link
-    var voteCounts = []
+    var demVotes = []
+    var repVotes = []
+    var indVotes = []
     data.forEach(function(d){
     demYes = d.democratic.yes
     demNo = ~d.democratic.no
@@ -10,15 +12,15 @@ d3.json("/votes").then(function (data) { //replace csv with link
     indYes = d.independent.yes
     indNo = ~d.independent.no
 
-    voteCounts.push(demYes, demNo, repYes, repNo, indYes, indNo)
-    console.log(voteCounts)
+    demVotes.push(demYes, demNo)
+    repVotes.push(repYes, repNo)
+    indVotes.push(indYes, indNo)
     });
+
+    var voteCounts = [demVotes, repVotes, indVotes]
 
     y.domain(data.map(function (d) { return d.bill.bill_id; })); //bill ids
     x.domain(d3.extent(data, function (d) { return voteCounts; })); //range of all votes counts
-
-    var max = d3.max(data, function (d) { return voteCounts; });
-    colour.domain([-max, max]); //set color scale across all vote counts
 
     var yAxis = svg.append("g")
         .attr("class", "y-axis")
