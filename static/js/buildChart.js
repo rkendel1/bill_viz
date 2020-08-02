@@ -1,20 +1,18 @@
 ////script not referenced in index yet
 
-function parse(d) {
+d3.json("/votes").then(function (data) { //replace csv with link
+    var voteCounts = []
+    data.forEach(function(d){
     demYes = d.democratic.yes
     demNo = ~d.democratic.no
     repYes = d.republican.yes
     repNo = ~d.republican.no
     indYes = d.independent.yes
     indNo = ~d.independent.no
-    return d;
-}
 
-d3.json( "/votes").then( parse, function (error, data) { //replace csv with link
-    if (error) throw error;
-
-    var voteCounts = [demYes, demNo, repYes, repNo, indYes, indNo]
+    voteCounts.push(demYes, demNo, repYes, repNo, indYes, indNo)
     console.log(voteCounts)
+    });
 
     y.domain(data.map(function (d) { return d.bill.bill_id; })); //bill ids
     x.domain(d3.extent(data, function (d) { return voteCounts; })); //range of all votes counts
