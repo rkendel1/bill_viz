@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacked Diverging D3 Chart</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <style>
+        body { margin:0; position:fixed; top:0; right:0; bottom:0; left:0; }
+        
+        body {
+          font-family: monospace;
+        }
+        
+        .y-axis line{
+          stroke: black;
+        }
+        
+        .annual-growth {
+          fill: black;
+        }
+        
+        .bar-label, .x-axis {
+          font-size: 8px;
+        }
+        
+        .domain, .tick line {
+          opacity: 0.5;
+        }
+        
+      </style>
+</head>
+<body>
+    <div id = "chart"></div>
+    <script type="text/javascript" src="blocksExample.js"></script>
+</body>
+</html>
