@@ -1,3 +1,7 @@
+////////INIT VARIABLES////////
+var votesData = [];
+var voteValues = [];
+
 /////////GET DATA/////////////
 
 //access votes route in Flask app
@@ -20,6 +24,7 @@ d3.json("/votes").then(function (data) {
         //push desired data to voteData array
         votesData.push(
             {
+                "id": d._id,
                 "name": d.bill.bill_id,
                 "question": d.question,
                 "description": d.description,
@@ -47,6 +52,28 @@ d3.json("/votes").then(function (data) {
     var stackedSeries = stackGenYes(votesData);
     console.log(stackedSeries);
 
+    /////////////SCALE FUNCTIONS////////////
+
+    //assign colors to parties
+    var colorScale = d3.scaleOrdinal()
+        .domain(["demYes", "repYes", "indYes"])//keys in votesData obj (buildChart.js)
+        .range(["#086fad", "#c7001e", "#8A2BE2"]);
+
+    var xScale = d3.scaleBand()
+        .domain(votesData.map(d => d.id))
+        .range([0, width])
+        .padding(0.1);
+
+    var yScale = d3.scaleLinear()
+        .domain([0, 240]) //max number of a single party
+        .range([height, 0]);
+
+    ////////////AXES///////////////
+
+    billIDs = []
+    votesData.forEach(vote => billIDs.push(vote.name))
+    console.log(billIDs)
+
     //////////////APPEND SVG////////////////////
 
     //create g tags for each key
@@ -57,14 +84,29 @@ d3.json("/votes").then(function (data) {
         .join('g')
         .classed('series', true)
         .style('fill', (d) => colorScale(d.key)); //assign color (initCharVars.js)
+    //create bars
     sel.selectAll('rect')
         .data((d) => d)
         .join('rect')
-        .attr('width', 40)
-        .attr('y', (d) => yScale(d[1]))
-        .attr('x', (d,i) => xScale(i))
-        .attr('height', (d) => yScale(d[0]) - yScale(d[1]));
-    
+        .attr('width', 32)
+        .attr('y', d => yScale(d[1]))
+        .attr('x', d => xScale(d.data.id))
+        .attr('height', d => yScale(d[0]) - yScale(d[1]))
+
+    //create labels
+    svg.append("g").selectAll("text")
+        .data(votesData)
+        .enter()
+        .append("text")
+        .attr("y", d => xScale(d.id) + 20)
+        .attr('x', -450)
+        .text(d=> d.name)
+        .attr("text-anchor", "middle") //anchor text to middle of text
+        .attr("alignment-baseline", "middle") //same as above
+        .attr("stroke", "black")
+        .attr("stroke-width", .5)
+        .attr("transform", "rotate(-90)")
+
     //////////////////////////////////////
 
 });
