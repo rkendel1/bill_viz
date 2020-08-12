@@ -1,10 +1,6 @@
-//create var to hold organized data
-var votesData = [];
+/////////GET DATA/////////////
 
-//create list of all values for axis ranges
-const voteValues = [];
-
-//access votes route
+//access votes route in Flask app
 d3.json("/votes").then(function (data) {
 
     //loop through objects in route
@@ -18,9 +14,10 @@ d3.json("/votes").then(function (data) {
         indYes = +d.independent.yes
         indNo = ~d.independent.no
 
+        //add all values to voteValues (to assess range for scales)
         voteValues.push(demYes, demNo, repYes, repNo, indYes, indNo);
 
-        //append var with desired data
+        //push desired data to voteData array
         votesData.push(
             {
                 "name": d.bill.bill_id,
@@ -34,27 +31,32 @@ d3.json("/votes").then(function (data) {
                 "indNo": indNo
             })
     });
-    console.log(votesData);
-    console.log("voteValues: :" + voteValues);
+    //console.log(votesData);
+    //console.log("voteValues: :" + voteValues);
+    //get min and max values of data to help determine scales
+    //console.log("max Yes: " + Math.max(...voteValues));
+    //console.log("min No: " + Math.min(...voteValues));
 
-    //get min and max values of data
-    console.log("max Yes: " + Math.max(...voteValues));
-    console.log("min No: " + Math.min(...voteValues));
+    /////////////STACK GENERATOR//////////////
 
+    //create stack generator
     var stackGenYes = d3.stack()
-        .keys(["demYes", "repYes", "indYes"]);
+        .keys(["demYes", "repYes", "indYes"]) //keys from votesData
+        .order(d3.stackOrderDescending); //demYes, repYes, indYes
+    //use generator to create data array
     var stackedSeries = stackGenYes(votesData);
     console.log(stackedSeries);
 
+    //////////////APPEND SVG////////////////////
+
+    //create g tags for each key
     var sel = d3.select("svg")
         .select('g')
-        .selectAll('g.series')
+        .selectAll('g.series') //series of values for each key
         .data(stackedSeries)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key));
-
-    //demYes rects
+        .style('fill', (d) => colorScale(d.key)); //assign color (initCharVars.js)
     sel.selectAll('rect')
         .data((d) => d)
         .join('rect')
@@ -62,6 +64,8 @@ d3.json("/votes").then(function (data) {
         .attr('y', (d) => yScale(d[1]))
         .attr('x', (d,i) => xScale(i))
         .attr('height', (d) => yScale(d[0]) - yScale(d[1]));
+    
+    //////////////////////////////////////
 
 });
 //console.log(votesData);
