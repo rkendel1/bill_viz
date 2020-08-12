@@ -1,22 +1,18 @@
 var margin = { top: 50, right: 20, bottom: 10, left: 65 },
     width = 800 - margin.left - margin.right,
-    height = 800 - margin.top - margin.bottom;
+    height = 400 - margin.top - margin.bottom;
 
-var y = d3.scale.ordinal()
-    .rangeRoundBands([0, height], .3);
+var colorScale = d3.scaleOrdinal()
+  .domain(["demYes", "repYes", "indYes"])
+  .range(["#086fad", "#c7001e", "#cccccc"]);
 
-var x = d3.scale.linear()
-    .rangeRound([0, width]);
-    
-var xAxis = d3.axisBottom(x);
+var xScale = d3.scaleLinear()
+    .domain([0, 20])
+    .range([0, width]);
 
-var yAxis = d3.axisLeft(y);
-
-var color = d3.scale.ordinal()
-    .range(["#c7001e", "#cccccc", "#086fad"]);
-    
-color.domain(["Republican", "Independent", "Democrat"])
-
+var yScale = d3.scaleLinear()
+    .domain([0, 240])
+    .range([height, 0]);
 
 var svg = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)

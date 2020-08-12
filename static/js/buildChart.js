@@ -26,44 +26,42 @@ d3.json("/votes").then(function (data) {
                 "name": d.bill.bill_id,
                 "question": d.question,
                 "description": d.description,
-                "votes": [
-                    {
-                        "party": "Democratic",
-                        "yes": demYes,
-                        "no": demNo
-                    },
-                    {
-                        "party": "Republican",
-                        "yes": repYes,
-                        "no": demNo
-                    },
-                    {
-                        "party": "Independent",
-                        "yes": indYes,
-                        "no": indNo
-                    }
-                ]
+                "demYes": demYes,
+                "repYes": repYes,
+                "indYes": indYes,
+                "demNo": demNo,
+                "repNo": repNo,
+                "indNo": indNo
             })
     });
     console.log(votesData);
-    console.log(votesData[0]);
     console.log("voteValues: :" + voteValues);
 
     //get min and max values of data
     console.log("max Yes: " + Math.max(...voteValues));
     console.log("min No: " + Math.min(...voteValues));
 
+    var stackGenYes = d3.stack()
+        .keys(["demYes", "repYes", "indYes"]);
+    var stackedSeries = stackGenYes(votesData);
+    console.log(stackedSeries);
+
+    var sel = d3.select("svg")
+        .select('g')
+        .selectAll('g.series')
+        .data(stackedSeries)
+        .join('g')
+        .classed('series', true)
+        .style('fill', (d) => colorScale(d.key));
+
     //demYes rects
-    svg.selectAll("rect")
-        .data(votesData)
-        .enter()
-        .append("rect")
-        .attr("width" ,d =>
-        d.votes[0].yes)
-        .attr("height", 25)
-        .attr("x", d => width/2)
-        .attr("y", (d, i) => i * 30)
-        .style("fill", "green");
+    sel.selectAll('rect')
+        .data((d) => d)
+        .join('rect')
+        .attr('width', 40)
+        .attr('y', (d) => yScale(d[1]))
+        .attr('x', (d,i) => xScale(i))
+        .attr('height', (d) => yScale(d[0]) - yScale(d[1]));
 
 });
 //console.log(votesData);
