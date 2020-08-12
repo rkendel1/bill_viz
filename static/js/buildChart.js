@@ -41,14 +41,25 @@ d3.json("/votes").then(function (data) {
             ]
         })
     });
-    //console.log(votesData);
-    console.log(voteValues);
+    console.log(votesData);
+    console.log(votesData[0]);
+    console.log("voteValues: :" + voteValues);
 
     //get min and max values of data
-    console.log("max: " + Math.max(...voteValues));
-    console.log("min: " +  Math.min(...voteValues));
+    console.log("max Yes: " + Math.max(...voteValues));
+    console.log("min No: " +  Math.min(...voteValues));
+
+    svg.selectAll("rect")
+    .data(votesData)
+    .enter()
+    .append("rect")
+    .attr("width", 25)
+    .attr("height", d =>
+    d.votes[0].value)
+    .attr("x", (d,i) => i * 30)
+    .attr("y", d => height - d.votes[0].value);
 
 });
-console.log(votesData);
-console.log(votesData[0]);
+//console.log(votesData);
+//console.log(votesData[0]);
 
