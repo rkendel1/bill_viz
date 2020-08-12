@@ -6,7 +6,7 @@ const voteValues = [];
 
 //access votes route
 d3.json("/votes").then(function (data) {
-    
+
     //loop through objects in route
     data.forEach(function (d) {
 
@@ -21,25 +21,29 @@ d3.json("/votes").then(function (data) {
         voteValues.push(demYes, demNo, repYes, repNo, indYes, indNo);
 
         //append var with desired data
-        votesData.push( 
-            {"name": d.bill.bill_id,
-            "question": d.question,
-            "description": d.description,
-            "votes": [
-                {"category": "Democratic Yes",
-                "value": demYes },
-                {"category": "Democratic No",
-                "value": demNo},
-                {"category": "Republican Yes",
-                "value": repYes},
-                {"category": "Repulican No",
-                "value": repNo},
-                {"category": "Independent Yes",
-                "value": indYes},
-                {"category": "Independent No",
-                "value": indNo}
-            ]
-        })
+        votesData.push(
+            {
+                "name": d.bill.bill_id,
+                "question": d.question,
+                "description": d.description,
+                "votes": [
+                    {
+                        "party": "Democratic",
+                        "yes": demYes,
+                        "no": demNo
+                    },
+                    {
+                        "party": "Republican",
+                        "yes": repYes,
+                        "no": demNo
+                    },
+                    {
+                        "party": "Independent",
+                        "yes": indYes,
+                        "no": indNo
+                    }
+                ]
+            })
     });
     console.log(votesData);
     console.log(votesData[0]);
@@ -47,17 +51,19 @@ d3.json("/votes").then(function (data) {
 
     //get min and max values of data
     console.log("max Yes: " + Math.max(...voteValues));
-    console.log("min No: " +  Math.min(...voteValues));
+    console.log("min No: " + Math.min(...voteValues));
 
+    //demYes rects
     svg.selectAll("rect")
-    .data(votesData)
-    .enter()
-    .append("rect")
-    .attr("width", 25)
-    .attr("height", d =>
-    d.votes[0].value)
-    .attr("x", (d,i) => i * 30)
-    .attr("y", d => height - d.votes[0].value);
+        .data(votesData)
+        .enter()
+        .append("rect")
+        .attr("width" ,d =>
+        d.votes[0].yes)
+        .attr("height", 25)
+        .attr("x", d => width/2)
+        .attr("y", (d, i) => i * 30)
+        .style("fill", "green");
 
 });
 //console.log(votesData);
