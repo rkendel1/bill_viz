@@ -59,22 +59,16 @@ d3.json("/votes").then(function (data) {
         .domain(["demYes", "repYes", "indYes"])//keys in votesData obj (buildChart.js)
         .range(["#086fad", "#c7001e", "#8A2BE2"]);
 
-    var xScale = d3.scaleBand()
+    var yScale = d3.scaleBand()
         .domain(votesData.map(d => d.id))
-        .range([0, width])
+        .range([0, height])
         .padding(0.1);
 
-    var yScale = d3.scaleLinear()
+    var xScale = d3.scaleLinear()
         .domain([0, 240]) //max number of a single party
-        .range([height, 0]);
-
-    ////////////AXES///////////////
-
-    billIDs = []
-    votesData.forEach(vote => billIDs.push(vote.name))
-    console.log(billIDs)
-
-    //////////////APPEND SVG////////////////////
+        .range([0, width]);
+    
+    ///////RECTANGLES//////
 
     //create g tags for each key
     var sel = d3.select("svg")
@@ -86,28 +80,34 @@ d3.json("/votes").then(function (data) {
         .style('fill', (d) => colorScale(d.key)); //assign color (initCharVars.js)
     //create bars
     sel.selectAll('rect')
-        .data((d) => d)
+        .data(d => d)
         .join('rect')
-        .attr('width', 32)
-        .attr('y', d => yScale(d[1]))
-        .attr('x', d => xScale(d.data.id))
-        .attr('height', d => yScale(d[0]) - yScale(d[1]))
+        .attr('width', d => xScale(d[1]) - xScale(d[0]))
+        .attr('x', d => xScale(d[0]))
+        .attr('y', d => yScale(d.data.id))
+        .attr('height', 32)
 
-    //create labels
+    //////AXES///////
+    billIDs = []
+    votesData.forEach(vote => billIDs.push(vote.name))
+    console.log(billIDs)
+    
     svg.append("g").selectAll("text")
         .data(votesData)
         .enter()
         .append("text")
-        .attr("y", d => xScale(d.id) + 20)
-        .attr('x', -450)
+        .attr("y", d => yScale(d.id) + 15)
+        .attr("x", width + 165)
         .text(d=> d.name)
         .attr("text-anchor", "middle") //anchor text to middle of text
         .attr("alignment-baseline", "middle") //same as above
         .attr("stroke", "black")
         .attr("stroke-width", .5)
-        .attr("transform", "rotate(-90)")
-
-    //////////////////////////////////////
+    var rightAxis = d3.axisLeft(yScale)
+        .tickFormat("");
+    svg.append("g")
+        .attr("transform", `translate(${width + 115}, 0)`)
+        .call(rightAxis);
 
 });
 //console.log(votesData);
