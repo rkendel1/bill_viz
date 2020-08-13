@@ -115,7 +115,8 @@ d3.json("/votes").then(function (data) {
         .attr('x', d => xScaleNo(d[0]))
         .attr('y', d => yScale(d.data.id))
         .attr('height', 32)
-    //////AXES///////
+
+    //////AXESS///////
     billIDs = []
     votesYes.forEach(vote => billIDs.push(vote.name))
     console.log(billIDs)
@@ -135,5 +136,14 @@ d3.json("/votes").then(function (data) {
     svg.append("g")
         .attr("transform", `translate(${width + margin.right / 2 + 20}, 0)`)
         .call(rightAxis);
+    var bottomAxisRight = d3.axisBottom(xScaleYes)
+    svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(bottomAxisRight)
+    var bottomAxisLeft = d3.axisBottom(xScaleNo)
+    svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(bottomAxisLeft)
+
 
 });

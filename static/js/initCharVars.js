@@ -1,6 +1,6 @@
 ///////CREATE CHART AREA////////
 
-var margin = { top: 50, right: 240, bottom: 100, left: 65 },
+var margin = { top: 50, right: 20, bottom: 20, left: 65 },
     width = 900 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
