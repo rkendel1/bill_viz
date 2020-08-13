@@ -12,7 +12,7 @@ d3.json("/votes").then(function (data) {
 
         //convert data to numeric
         demYes = +d.democratic.yes
-        demNo = +d.democratic.no //makes negative
+        demNo = +d.democratic.no
         repYes = +d.republican.yes
         repNo = +d.republican.no
         indYes = +d.independent.yes
@@ -73,18 +73,18 @@ d3.json("/votes").then(function (data) {
         .padding(0.1);
 
     var xScaleYes = d3.scaleLinear()
-        .domain([0, 240]) //max number of a single party
-        .range([width / 2, width]);
+        .domain([0, 535]) //members of congress
+        .range([0, width]);
 
     var xScaleNo = d3.scaleLinear()
-        .domain([0, 240]) //max number of a single party
-        .range([0, width / 2]);
+        .domain([535, 0]) //members of congress
+        .range([0, width]);
 
 
     ////////////////RECTANGLES////////////////
 
     //create g tags for each YES key
-    var selYes = d3.select("svg")
+    var selYes = d3.select("#svgYes")
         .select('g')
         .selectAll('g.seriesYes') //series of values for each key
         .data(stackedSeriesYes)
@@ -101,7 +101,7 @@ d3.json("/votes").then(function (data) {
         .attr('height', 32)
 
     //create g tags for each NO key
-    var selNo = d3.select("svg")
+    var selNo = d3.select("#svgNo")
         .select('g')
         .selectAll('g.seriesNo') //series of values for each key
         .data(stackedSeriesNo)
@@ -112,17 +112,18 @@ d3.json("/votes").then(function (data) {
     selNo.selectAll('rect')
         .data(d => d)
         .join('rect')
-        .attr('width', d => xScaleNo(d[1]) - xScaleNo(d[0]))
-        .attr('x', d => xScaleNo(d[0]))
+        .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1]))
+        .attr('x', d => width - xScaleNo(d[0]))
         .attr('y', d => yScale(d.data.id))
-        .attr('height', 32)
+        .attr('height', 32);
 
     //////AXESS///////
     billIDs = []
     votesYes.forEach(vote => billIDs.push(vote.name))
     console.log(billIDs)
 
-    svg.append("g").selectAll("text")
+    svgYes.append("g").classed("bill-labels", true)
+        .selectAll("text")
         .data(votesYes)
         .enter()
         .append("text")
@@ -134,15 +135,18 @@ d3.json("/votes").then(function (data) {
         .attr("stroke-width", .5)
     var rightAxis = d3.axisLeft(yScale)
         .tickFormat("");
-    svg.append("g")
+    svgYes.append("g")
+        .classed("rightAxis", true)
         .attr("transform", `translate(${width + margin.right / 2 + 20}, 0)`)
         .call(rightAxis);
     var bottomAxisRight = d3.axisBottom(xScaleYes)
-    svg.append("g")
+    svgYes.append("g")
+        .classed("bottomAxis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxisRight)
     var bottomAxisLeft = d3.axisBottom(xScaleNo)
-    svg.append("g")
+    svgNo.append("g")
+        .classed("bottomAxis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxisLeft)
 
