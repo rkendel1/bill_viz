@@ -3,7 +3,7 @@
 
 
 ///check margins vs padding. may be interferings with axis and nos running into yeses
-var margin = { top: 50, right: 20, bottom: 20, left: 5 },
+var margin = { top: 50, right: 5, bottom: 20, left: 5 },
     width = 450 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 

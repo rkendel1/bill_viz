@@ -77,8 +77,8 @@ d3.json("/votes").then(function (data) {
         .range([0, width]);
 
     var xScaleNo = d3.scaleLinear()
-        .domain([535, 0]) //members of congress
-        .range([0, width]);
+        .domain([0, 535]) //members of congress
+        .range([width, 0]);
 
 
     ////////////////RECTANGLES////////////////
@@ -107,7 +107,7 @@ d3.json("/votes").then(function (data) {
         .data(stackedSeriesNo)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key)); //assign color (initCharVars.js)
+        .style('fill', (d) => colorScale(d.key));
     //create NO bars
     selNo.selectAll('rect')
         .data(d => d)
