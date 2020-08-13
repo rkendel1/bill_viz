@@ -102,7 +102,7 @@ d3.json("/votes").then(function (data) {
     //create g tags for each NO key
     var selNo = d3.select("svg")
         .select('g')
-        .selectAll('g.seriesNO') //series of values for each key
+        .selectAll('g.seriesNo') //series of values for each key
         .data(stackedSeriesNo)
         .join('g')
         .classed('series', true)
