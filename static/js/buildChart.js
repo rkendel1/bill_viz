@@ -1,5 +1,5 @@
 var votesNo = [];
-var votesYes = []
+var votesYes = [];
 var voteValues = [];
 
 /////////GET DATA/////////////
@@ -47,7 +47,7 @@ d3.json("/votes").then(function (data) {
 
     //create stack generator for YES votes
     var stackGenYes = d3.stack()
-        .keys(["demYes", "repYes", "indYes"]) //keys from votesData
+        .keys(["demYes", "repYes", "indYes"]) //keys from votesYes
         .order(d3.stackorderDescending)   
         //use generator to create data array
     var stackedSeriesYes = stackGenYes(votesYes);
@@ -55,7 +55,7 @@ d3.json("/votes").then(function (data) {
 
     //create stack generator for NO votes
     var stackGenNo = d3.stack()
-        .keys(["demNo", "repNo", "indNo"]) //keys from votesData
+        .keys(["demNo", "repNo", "indNo"]) //keys from votesNo
     //use generator to create data array
     var stackedSeriesNo = stackGenNo(votesNo);
     console.log(stackedSeriesNo);
@@ -64,7 +64,7 @@ d3.json("/votes").then(function (data) {
 
     //assign colors to parties
     var colorScale = d3.scaleOrdinal()
-        .domain(["demYes", "repYes", "indYes"])//keys in votesData obj (buildChart.js)
+        .domain(["demYes", "repYes", "indYes"])
         .range(["#086fad", "#c7001e", "#8A2BE2"]);
 
     var yScale = d3.scaleBand()
@@ -73,11 +73,11 @@ d3.json("/votes").then(function (data) {
         .padding(0.1);
 
     var xScaleYes = d3.scaleLinear()
-        .domain([0, 535]) //members of congress
+        .domain([0, 535]) //num members of congress
         .range([0, width]);
 
     var xScaleNo = d3.scaleLinear()
-        .domain([0, 535]) //members of congress
+        .domain([0, 535]) //num members of congress
         .range([width, 0]);
 
 
@@ -90,8 +90,7 @@ d3.json("/votes").then(function (data) {
         .data(stackedSeriesYes)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key)); //assign color (initCharVars.js)
-    //create YES bars
+        .style('fill', (d) => colorScale(d.key));
     selYes.selectAll('rect')
         .data(d => d)
         .join('rect')
@@ -113,7 +112,7 @@ d3.json("/votes").then(function (data) {
         .data(d => d)
         .join('rect')
         .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1]))
-        .attr('x', d => width - xScaleNo(d[0]))
+        .attr('x', d => xScaleNo(d[1]))
         .attr('y', d => yScale(d.data.id))
         .attr('height', 32);
 
