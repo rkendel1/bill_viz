@@ -39,8 +39,8 @@ var mouseover = function (d) {
 //get pixel location of mouse and create tool tip text with that tag's data
 var mousemove = function (d) {
     toolTip
-        .html(d.bill.bill_id)
-        .style("left", "500x")
+        .html(`${d[1] - d[0]} votes `)
+        .style("left", "500px")
         .style("top", "150px")
 };
 
@@ -50,5 +50,5 @@ var mouseleave = function (d) {
         .style("opacity", 0)
     d3.select(this)
         .style("stroke", "none")
-        .style("opacity", 0.8)
+        .style("opacity", 1)
 };

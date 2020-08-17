@@ -122,7 +122,8 @@ d3.json("/votes").then(function (data) {
         //tool tips
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseout", mouseleave);
+        .on("mouseout", mouseleave)
+        .html(d=>d[1]);
 
     //////AXESS///////
     billIDs = []

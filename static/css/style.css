@@ -1,8 +1,32 @@
 .bill-labels {
+    font-size: 11px;
     font-family: sans-serif;
-    font-size: 12px;
+    text-anchor: start;
+    fill: black;
 }
 
-rect:hover{
+rect:hover {
     stroke: black; 
+}
+
+rect text {
+    font-size: 11px;
+    font-family: sans-serif;
+    text-anchor: middle;
+    fill: black;
+
+}
+
+.tooltip {
+    position: absolute;
+    width: 80px;
+    height: 10px;
+    padding: 10px;
+    font: 10px sans-serif;
+    text-align: center;
+    color: white;
+    background-color:black;
+    border: 0;
+    border-radius: 10px;
+    opacity: 0.5;
 }
