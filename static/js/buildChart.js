@@ -97,7 +97,11 @@ d3.json("/votes").then(function (data) {
         .attr('width', d => xScaleYes(d[1]) - xScaleYes(d[0]))
         .attr('x', d => xScaleYes(d[0]))
         .attr('y', d => yScale(d.data.id))
-        .attr('height', 32)
+        .attr('height', 28)
+        //tool tips
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseout", mouseleave);
 
     //create g tags for each NO key
     var selNo = d3.select("#svgNo")
@@ -114,38 +118,42 @@ d3.json("/votes").then(function (data) {
         .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1]))
         .attr('x', d => xScaleNo(d[1]))
         .attr('y', d => yScale(d.data.id))
-        .attr('height', 32);
+        .attr('height', 28)
+        //tool tips
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseout", mouseleave);
 
     //////AXESS///////
     billIDs = []
     votesYes.forEach(vote => billIDs.push(vote.name))
     console.log(billIDs)
 
+    var rightAxis = d3.axisRight(yScale)
+        .tickFormat("");
     svgYes.append("g").classed("bill-labels", true)
         .selectAll("text")
         .data(votesYes)
         .enter()
         .append("text")
-        .attr("y", d => yScale(d.id) + 15)
-        .attr("x", width + margin.right / 2 + 25)
+        .attr("y", d => yScale(d.id) + 18)
+        .attr("x", width + 10)
         .text(d => d.name)
         .attr("alignment-baseline", "middle") //same as above
         .attr("stroke", "black")
         .attr("stroke-width", .5)
-    var rightAxis = d3.axisLeft(yScale)
-        .tickFormat("");
     svgYes.append("g")
-        .classed("rightAxis", true)
-        .attr("transform", `translate(${width + margin.right / 2 + 20}, 0)`)
+        .classed("yAxis", true)
+        .attr("transform", `translate(${width}, 0)`)
         .call(rightAxis);
     var bottomAxisRight = d3.axisBottom(xScaleYes)
     svgYes.append("g")
-        .classed("bottomAxis", true)
+        .classed("xAxis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxisRight)
     var bottomAxisLeft = d3.axisBottom(xScaleNo)
     svgNo.append("g")
-        .classed("bottomAxis", true)
+        .classed("xAxis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxisLeft)
 
