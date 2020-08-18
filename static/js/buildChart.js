@@ -43,13 +43,15 @@ d3.json("/votes").then(function (data) {
                 "indNo": indNo,
             })
     });
+
+    console.log(`votesNo: ${votesNo}`)
     /////////////STACK GENERATORS//////////////
 
     //create stack generator for YES votes
     var stackGenYes = d3.stack()
         .keys(["demYes", "repYes", "indYes"]) //keys from votesYes
-        .order(d3.stackorderDescending)   
-        //use generator to create data array
+        .order(d3.stackorderDescending)
+    //use generator to create data array
     var stackedSeriesYes = stackGenYes(votesYes);
     console.log(stackedSeriesYes);
 
@@ -122,36 +124,79 @@ d3.json("/votes").then(function (data) {
         //tool tips
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseout", mouseleave)
-        .html(d=>d[1]);
+        .on("mouseout", mouseleave);
+
+    //////LINES///////
+    d3.select("#svgNo").select("g")
+        .append("g")
+        .classed("line", true)
+        .selectAll("path")
+        .data(stackedSeriesNo[2])
+        .enter()
+        .append("path")
+        .attr("fill", "none")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .style("stroke-dasharray", ("3,5"))
+        .attr("d", d => lineGenerator(
+            makeCoords(
+                0,
+                xScaleNo(d[1]), 
+                yScale(d.data.id) + 17)
+            )
+        );
+    
+    d3.select("#svgYes").select("g")
+        .append("g")
+        .classed("line", true)
+        .selectAll("path")
+        .data(stackedSeriesYes[2])
+        .enter()
+        .append("path")
+        .attr("fill", "none")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .style("stroke-dasharray", ("3,5"))
+        .attr("d", d => lineGenerator(
+            makeCoords(
+                xScaleYes(d[1]),
+                width, 
+                yScale(d.data.id) + 17)
+            )
+        );
+
 
     //////AXESS///////
-    billIDs = []
-    votesYes.forEach(vote => billIDs.push(vote.name))
-    console.log(billIDs)
 
+    //create y axis variable
     var rightAxis = d3.axisRight(yScale)
-        .tickFormat("");
-    svgYes.append("g").classed("bill-labels", true)
-        .selectAll("text")
-        .data(votesYes)
-        .enter()
-        .append("text")
-        .attr("y", d => yScale(d.id) + 18)
-        .attr("x", width + 10)
-        .text(d => d.name)
-        .attr("alignment-baseline", "middle") //same as above
-        .attr("stroke", "black")
-        .attr("stroke-width", .5)
+        .tickFormat(""); //remove tick labels
+    //add y axis to page
     svgYes.append("g")
         .classed("yAxis", true)
         .attr("transform", `translate(${width}, 0)`)
         .call(rightAxis);
+    //create containter for custom y ticks
+    svgYes.append("g").classed("bill-labels", true)
+        .selectAll("text")
+        .data(votesYes)
+        .enter()
+        //create text tag for each bill
+        .append("text")
+        //place along tick marks
+        .attr("y", d => yScale(d.id) + 18)
+        .attr("x", width + 10)
+        .text(d => d.name) //bill ID
+        .attr("alignment-baseline", "middle")
+        .attr("stroke", "black")
+        .attr("stroke-width", .5)
+    //create x axis variable for right side and add to page
     var bottomAxisRight = d3.axisBottom(xScaleYes)
     svgYes.append("g")
         .classed("xAxis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxisRight)
+    //create x axis variable for left side and add to page
     var bottomAxisLeft = d3.axisBottom(xScaleNo)
     svgNo.append("g")
         .classed("xAxis", true)

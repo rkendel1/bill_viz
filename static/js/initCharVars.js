@@ -4,19 +4,22 @@ var margin = { top: 20, right: 200, bottom: 20, left: 5 },
     width = 450 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
-var svgNo = d3.select("#chart").append("svg")
-    .attr("width", width + margin.left * 2)
+var svgNo = d3.select("#chart")
+    .append("svg")
+    .attr("width", width)
     .attr("height", height + margin.top + margin.bottom)
     .attr("id", "svgNo")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var svgYes = d3.select("#chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
+var svgYes = d3.select("#chart")
+    .append("svg")
+    .attr("width", width + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr("id", "svgYes")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 //create div tag to hold tool tips
 var toolTip = d3.select("#chart")
@@ -52,3 +55,21 @@ var mouseleave = function (d) {
         .style("stroke", "none")
         .style("opacity", 1)
 };
+
+function makeCoords (x,y,z) {
+    
+    var coords = [
+        [x, z],
+        [y, z]
+    ];
+    return coords
+}
+
+//console.log(makeCoords(1,5))
+
+var coordinates = [
+    [0, 20],
+    [width, 20]
+  ];
+  
+  var lineGenerator = d3.line();
