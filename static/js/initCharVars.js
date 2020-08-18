@@ -1,8 +1,8 @@
-///////CREATE CHART AREA////////
+///////CHART SVG AREAS////////
 
 var margin = { top: 20, right: 200, bottom: 20, left: 5 },
     width = 450 - margin.left - margin.right,
-    height = 800 - margin.top - margin.bottom;
+    height = 650 - margin.top - margin.bottom;
 
 var svgNo = d3.select("#chart")
     .append("svg")
@@ -20,6 +20,11 @@ var svgYes = d3.select("#chart")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+//////CHART LABELS///////
+var chartLabel = d3.select("#chartLabel")
+
+///////TOOL TIPS/////////
+
 
 //create div tag to hold tool tips
 var toolTip = d3.select("#chart")
@@ -27,7 +32,7 @@ var toolTip = d3.select("#chart")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-//make tool tip div visible
+//function to make tool tip div visible
 var mouseover = function (d) {
     toolTip
         .html(`${d[1] - d[0]} votes `)
@@ -39,8 +44,7 @@ var mouseover = function (d) {
         .style("stroke", "black")
 };
 
-
-//make div tag invisible upon mouse out
+//function make tool tips invisible
 var mouseleave = function (d) {
     toolTip
         .style("opacity", 0) //hides tool tip
@@ -49,6 +53,8 @@ var mouseleave = function (d) {
     d3.select(this)
         .style("stroke", "none") //removes border around rect
 };
+
+////////LINES/////////
 
 //func to create coords list for line generator object
 function makeCoords (x,y,z) {
