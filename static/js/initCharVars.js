@@ -28,48 +28,42 @@ var toolTip = d3.select("#chart")
     .style("opacity", 0);
 
 //make tool tip div visible
-var mouseover = function (d) {
+var mouseover = function (d,i) {
     toolTip
         .style("opacity", 1)
-        .style("left", "50px")
-        .style("top", "75px")
+        .style("left", "0px")
+        .style("top", `${i*38}px`)
     //highlight circle mouse is on with a black border
     d3.select(this)
         .style("stroke", "black")
-        .style("opacity", 1)
 };
 
 //get pixel location of mouse and create tool tip text with that tag's data
-var mousemove = function (d) {
+var mousemove = function (d, i) {
     toolTip
         .html(`${d[1] - d[0]} votes `)
-        .style("left", "500px")
-        .style("top", "150px")
+        .style("left","0px")
+        .style("top", `${i*38}x`)
 };
 
 //make div tag invisible upon mouse out
 var mouseleave = function (d) {
     toolTip
-        .style("opacity", 0)
+        .style("opacity", 0) //hides tool tip
     d3.select(this)
-        .style("stroke", "none")
-        .style("opacity", 1)
+        .style("stroke", "none") //removes border around rect
 };
 
+//func to create coords list for line generator object
 function makeCoords (x,y,z) {
     
     var coords = [
-        [x, z],
-        [y, z]
+        [x, z], //x,y coords of line start
+        [y, z] //line end
     ];
     return coords
 }
 
 //console.log(makeCoords(1,5))
-
-var coordinates = [
-    [0, 20],
-    [width, 20]
-  ];
   
-  var lineGenerator = d3.line();
+var lineGenerator = d3.line();

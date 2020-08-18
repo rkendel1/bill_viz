@@ -88,18 +88,18 @@ d3.json("/votes").then(function (data) {
     //create g tags for each YES key
     var selYes = d3.select("#svgYes")
         .select('g')
-        .selectAll('g.seriesYes') //series of values for each key
+        .selectAll('g.seriesYes')
         .data(stackedSeriesYes)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key));
+        .style('fill', (d) => colorScale(d.key)); //assign color by party
     selYes.selectAll('rect')
         .data(d => d)
         .join('rect')
-        .attr('width', d => xScaleYes(d[1]) - xScaleYes(d[0]))
-        .attr('x', d => xScaleYes(d[0]))
-        .attr('y', d => yScale(d.data.id))
-        .attr('height', 28)
+        .attr('width', d => xScaleYes(d[1]) - xScaleYes(d[0])) //length of bars
+        .attr('x', d => xScaleYes(d[0])) //bar starting point
+        .attr('y', d => yScale(d.data.id)) //unique identifier (num of data points)
+        .attr('height', 28) //width of bars
         //tool tips
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
@@ -108,19 +108,19 @@ d3.json("/votes").then(function (data) {
     //create g tags for each NO key
     var selNo = d3.select("#svgNo")
         .select('g')
-        .selectAll('g.seriesNo') //series of values for each key
+        .selectAll('g.seriesNo')
         .data(stackedSeriesNo)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key));
+        .style('fill', (d) => colorScale(d.key)); //assign color by party
     //create NO bars
     selNo.selectAll('rect')
         .data(d => d)
         .join('rect')
-        .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1]))
-        .attr('x', d => xScaleNo(d[1]))
-        .attr('y', d => yScale(d.data.id))
-        .attr('height', 28)
+        .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1])) //length of bars
+        .attr('x', d => xScaleNo(d[1])) //bar start point
+        .attr('y', d => yScale(d.data.id)) //unique identifer (num of data points)
+        .attr('height', 28) //width of bars
         //tool tips
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
@@ -131,18 +131,18 @@ d3.json("/votes").then(function (data) {
         .append("g")
         .classed("line", true)
         .selectAll("path")
-        .data(stackedSeriesNo[2])
+        .data(stackedSeriesNo[2]) //independent votes series
         .enter()
         .append("path")
         .attr("fill", "none")
         .attr("stroke", "black")
         .attr("stroke-width", 1)
-        .style("stroke-dasharray", ("3,5"))
+        .style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
         .attr("d", d => lineGenerator(
             makeCoords(
-                0,
-                xScaleNo(d[1]), 
-                yScale(d.data.id) + 17)
+                0, //start at 0
+                xScaleNo(d[1]), //end at bar
+                yScale(d.data.id) + 17) //aligns with y tick marks
             )
         );
     
@@ -156,15 +156,14 @@ d3.json("/votes").then(function (data) {
         .attr("fill", "none")
         .attr("stroke", "black")
         .attr("stroke-width", 1)
-        .style("stroke-dasharray", ("3,5"))
+        .style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
         .attr("d", d => lineGenerator(
             makeCoords(
-                xScaleYes(d[1]),
-                width, 
-                yScale(d.data.id) + 17)
+                xScaleYes(d[1]), //start at bar
+                width, //end at width of chart
+                yScale(d.data.id) + 17) //aligns with y tick marks
             )
         );
-
 
     //////AXESS///////
 
@@ -202,6 +201,4 @@ d3.json("/votes").then(function (data) {
         .classed("xAxis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxisLeft)
-
-
 });
