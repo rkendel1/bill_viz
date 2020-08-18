@@ -17,6 +17,10 @@ rect text {
 
 }
 
+#chart {
+    margin-left: 30%;
+}
+
 .tooltip {
     position: absolute;
     width: 45px;

@@ -28,28 +28,24 @@ var toolTip = d3.select("#chart")
     .style("opacity", 0);
 
 //make tool tip div visible
-var mouseover = function (d,i) {
+var mouseover = function (d) {
     toolTip
+        .html(`${d[1] - d[0]} votes `)
         .style("opacity", 1)
-        .style("left", "0px")
-        .style("top", `${i*38}px`)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY) + "px")
     //highlight circle mouse is on with a black border
     d3.select(this)
         .style("stroke", "black")
 };
 
-//get pixel location of mouse and create tool tip text with that tag's data
-var mousemove = function (d, i) {
-    toolTip
-        .html(`${d[1] - d[0]} votes `)
-        .style("left","0px")
-        .style("top", `${i*38}x`)
-};
 
 //make div tag invisible upon mouse out
 var mouseleave = function (d) {
     toolTip
         .style("opacity", 0) //hides tool tip
+        .style("left", "0px")
+        .style("top", "0px")
     d3.select(this)
         .style("stroke", "none") //removes border around rect
 };

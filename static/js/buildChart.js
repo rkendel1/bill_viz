@@ -102,7 +102,6 @@ d3.json("/votes").then(function (data) {
         .attr('height', 28) //width of bars
         //tool tips
         .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
         .on("mouseout", mouseleave);
 
     //create g tags for each NO key
@@ -123,7 +122,6 @@ d3.json("/votes").then(function (data) {
         .attr('height', 28) //width of bars
         //tool tips
         .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
         .on("mouseout", mouseleave);
 
     //////LINES///////
