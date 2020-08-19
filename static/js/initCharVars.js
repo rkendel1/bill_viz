@@ -1,39 +1,9 @@
-/////// MAIN CHART SVG AREAS////////
+///////////// MAIN CHART SVG AREAS//////////////////
 
 var margin = { top: 20, right: 100, bottom: 20, left: 5 },
     width = 350 - margin.left - margin.right,
     height = 650 - margin.top - margin.bottom;
 
-//create text "Votes Against" below x axis
-var chartLabelLeft = d3.select("#chartLabel")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", 35)
-    .attr("class", "chartLabels")
-    .append("g")
-    .attr("id", "chartLabelLeft")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    .append("text")
-    .html("Votes Against")
-    .attr("x", (width - margin.right)/ 2)
-    .attr("alignment-baseline", "bottom")
-    .attr("stroke", "black")
-    .attr("stroke-width", .5);
-//create text "Votes For" below x axis
-var chartLabelRight = d3.select("#chartLabel")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", 35)
-    .attr("class", "chartLabels")
-    .append("g")
-    .attr("id", "chartLabelRight")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    .append("text")
-    .html("Votes For")
-    .attr("x", (width - margin.right) / 2)
-    .attr("alignment-baseline", "bottom")
-    .attr("stroke", "black")
-    .attr("stroke-width", .5);
 //create left side svg
 var svgNo = d3.select("#chart")
     .append("svg")
@@ -41,7 +11,7 @@ var svgNo = d3.select("#chart")
     .attr("height", height + margin.top + margin.bottom)
     .attr("id", "svgNo")
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 //create right side svg
 var svgYes = d3.select("#chart")
     .append("svg")
@@ -49,9 +19,52 @@ var svgYes = d3.select("#chart")
     .attr("height", height + margin.top + margin.bottom)
     .attr("id", "svgYes")
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-/////////LEGEND//////////
+///////////////////CHART LABELS///////////////////////////
+
+//create text "Votes Against" below x axis
+var chartLabelLeft = d3.select("#chartLabelBottom")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", 35)
+    .attr("class", "chartLabels")
+    .append("g")
+    .attr("id", "chartLabelLeft")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    .append("text")
+    .classed("bottomLabels", true)
+    .html("Votes Against")
+    .attr("x", (width - margin.right)/ 2)
+    .attr("alignment-baseline", "bottom")
+
+//create text "Votes For" below x axis
+var chartLabelRight = d3.select("#chartLabelBottom")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", 35)
+    .append("g")
+    .attr("id", "chartLabelRight")
+    .attr("transform",`translate(${margin.left}, ${margin.top})`)
+    .append("text")
+    .classed("bottomLabels", true)
+    .html("Votes For")
+    .attr("x", (width - margin.right) / 2)
+    .attr("alignment-baseline", "bottom")
+
+var chartLabelRight = d3.select("#chartLabelTop")
+    .append("svg")
+    .attr("width", width * 2)
+    .attr("height", 35)
+    .attr("class", "chartLabels")
+    .append("g")
+    .attr("transform",`translate(${margin.left}, ${margin.top})`)
+    .append("text")
+    .html("Number of Votes on Recent Bills by Party")
+    .attr("x", width/2 -margin.right)
+    .attr("alignment-baseline", "bottom")
+
+////////////////////////LEGEND//////////////////////////
 
 //set size of legend div
 var legend = d3.select("#legend")
@@ -123,7 +136,7 @@ indLegSVG.append("text")
     .attr("y", legTextY)
     .html(parties[2]);
 
-///////TOOL TIPS/////////
+//////////////////////////TOOL TIPS////////////////////////////
 
 //create div tag to hold tool tips
 var toolTip = d3.select("#chart")
@@ -154,7 +167,7 @@ var mouseleave = function (d) {
         .style("stroke", "none") //removes border around rect
 };
 
-////////LINES/////////
+////////////////////////LINES///////////////////////////////
 
 //func to create coords list for line generator object
 function makeCoords(x, y, z) {
@@ -163,9 +176,8 @@ function makeCoords(x, y, z) {
         [y, z] //line end
     ];
     return coords
-}
+};
 //console.log(makeCoords(1,5))
-
 var lineGenerator = d3.line();
 
 //////SCALES//////////

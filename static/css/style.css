@@ -1,3 +1,30 @@
+
+#chart {
+    margin-left: 30%;
+}
+
+
+.chartLabels {
+        margin-left: 30%;
+}
+
+.bottomLabels {
+    font-size: 14px;
+    font-family: sans-serif;
+    fill: black;
+    stroke: black;
+    stroke-width: .5;
+}
+
+#chartLabelTop {
+    font-size: 20px;
+    font-family: sans-serif;
+    fill: black;
+    stroke: black;
+    stroke-width: .5;
+    text-anchor: start;
+}
+
 .bill-labels {
     font-size: 11px;
     font-family: sans-serif;
@@ -6,13 +33,6 @@
     stroke: black;
     stroke-width: .2;
 }
-
-.chartLabels {
-        font-size: 14px;
-        font-family: sans-serif;
-        fill: black;
-}
-
 .legend-text {
     font-size: 12px;
     font-family: sans-serif;
@@ -22,20 +42,12 @@
     text-align: end;
 }
 
-#chart {
-    margin-left: 30%;
-}
-
 #legend {
     margin-left: 30%;
 }
 
 .legendColors {
     margin-right: 60px;
-}
-
-#chartLabel {
-    margin-left: 30%;
 }
 
 
