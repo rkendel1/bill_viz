@@ -1,4 +1,4 @@
-///////CHART SVG AREAS////////
+/////// MAIN CHART SVG AREAS////////
 
 var margin = { top: 20, right: 100, bottom: 20, left: 5 },
     width = 350 - margin.left - margin.right,
@@ -50,11 +50,15 @@ var svgYes = d3.select("#chart")
     .attr("id", "svgYes")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-//create legend
+
+/////////LEGEND//////////
+
+//set size of legend div
 var legend = d3.select("#legend")
     .attr("width", width)
     .attr("height", 100)
 
+//create SVG for each party
 var demLegSVG = legend.append("svg")
     .attr("id", "demLegSVG")
     .attr("width", 180);
@@ -65,9 +69,11 @@ var indLegSVG = legend.append("svg")
     .attr("id", "indLegSVG")
     .attr("width", 180);
 
+//lists to hold colors and corresponding parties
 var colors = ["#086fad", "#c7001e", "#8A2BE2"]
 var parties = ["Democrat", "Republican", "Independent"]
 
+//x attribute of each rect and text tag
 var legRectX = 40;
 var legTextX = 60;
 
@@ -113,7 +119,6 @@ indLegSVG.append("text")
     .attr("y", 12)
     .html(parties[2]);
 
-
 ///////TOOL TIPS/////////
 
 //create div tag to hold tool tips
@@ -149,7 +154,6 @@ var mouseleave = function (d) {
 
 //func to create coords list for line generator object
 function makeCoords(x, y, z) {
-
     var coords = [
         [x, z], //x,y coords of line start
         [y, z] //line end
@@ -159,3 +163,20 @@ function makeCoords(x, y, z) {
 //console.log(makeCoords(1,5))
 
 var lineGenerator = d3.line();
+
+//////SCALES//////////
+
+//assign colors to parties
+var colorScale = d3.scaleOrdinal()
+    .domain(["demYes", "repYes", "indYes"])
+    .range(colors); //from initCharVars.js
+
+//x scale for left side of chart
+var xScaleYes = d3.scaleLinear()
+    .domain([0, 535]) //num members of congress
+    .range([0, width]);
+
+//x scale for rigth side of chart
+var xScaleNo = d3.scaleLinear()
+    .domain([0, 535]) //num members of congress
+    .range([width, 0]);

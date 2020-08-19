@@ -18,7 +18,7 @@ d3.json("/votes").then(function (data) {
         indYes = +d.independent.yes
         indNo = +d.independent.no
 
-        //add all values to voteValues (to assess range for scales)
+        //add all values to voteValues to assess range for scales (initCharVars.js)
         voteValues.push(demYes, demNo, repYes, repNo, indYes, indNo);
 
         //push desired data to voteData arrays
@@ -45,6 +45,14 @@ d3.json("/votes").then(function (data) {
     });
 
     console.log(`votesNo: ${votesNo}`)
+
+
+    //////SCALES//////////
+    var yScale = d3.scaleBand()
+        .domain(votesYes.map(d => d.id))
+        .range([0, height])
+        .padding(0.1);
+
     /////////////STACK GENERATORS//////////////
 
     //create stack generator for YES votes
@@ -62,37 +70,16 @@ d3.json("/votes").then(function (data) {
     var stackedSeriesNo = stackGenNo(votesNo);
     console.log(`stackedSeriesNo: ${stackedSeriesNo}`);
 
-    /////////////SCALE FUNCTIONS////////////
-
-    //assign colors to parties
-    var colorScale = d3.scaleOrdinal()
-        .domain(["demYes", "repYes", "indYes"])
-        .range(colors);
-
-    var yScale = d3.scaleBand()
-        .domain(votesYes.map(d => d.id))
-        .range([0, height])
-        .padding(0.1);
-
-    var xScaleYes = d3.scaleLinear()
-        .domain([0, 535]) //num members of congress
-        .range([0, width]);
-
-    var xScaleNo = d3.scaleLinear()
-        .domain([0, 535]) //num members of congress
-        .range([width, 0]);
-
-
     ////////////////RECTANGLES////////////////
 
-    //create g tags for each YES key
+    //create g tags for each key in stackedSeriesYes
     var selYes = d3.select("#svgYes")
         .select('g')
         .selectAll('g.seriesYes')
         .data(stackedSeriesYes)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key)); //assign color by party
+        .style('fill', (d) => colorScale(d.key)); //assign color by party (key)
     selYes.selectAll('rect')
         .data(d => d)
         .join('rect')
@@ -104,14 +91,14 @@ d3.json("/votes").then(function (data) {
         .on("mouseover", mouseover)
         .on("mouseout", mouseleave);
 
-    //create g tags for each NO key
+    //create g tags for each key in stackedSeriesNo
     var selNo = d3.select("#svgNo")
         .select('g')
         .selectAll('g.seriesNo')
         .data(stackedSeriesNo)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key)); //assign color by party
+        .style('fill', (d) => colorScale(d.key)); //assign color by party (key)
     //create NO bars
     selNo.selectAll('rect')
         .data(d => d)
@@ -125,26 +112,28 @@ d3.json("/votes").then(function (data) {
         .on("mouseout", mouseleave);
 
     //////LINES///////
+
     d3.select("#svgNo").select("g")
         .append("g")
         .classed("line", true)
         .selectAll("path")
-        .data(stackedSeriesNo[2]) //independent votes series
+        .data(stackedSeriesNo[2]) //independent votes series (last series in stackedSeriesNo)
         .enter()
         .append("path")
         .attr("fill", "none")
         .attr("stroke", "gray")
         .attr("stroke-width", 1)
-        //.style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
+        //.style("stroke-dasharray", ("4, 8")) // ("length of dash, space before next dash")
         .attr("d", d => lineGenerator(
             makeCoords(
                 0, //start at 0
                 xScaleNo(d[1]), //end at bar
                 yScale(d.data.id) + 14 //aligns with y tick marks
-                )
             )
+        )
         );
 
+    //same as above for right side of chart
     d3.select("#svgYes").select("g")
         .append("g")
         .classed("line", true)
@@ -155,14 +144,14 @@ d3.json("/votes").then(function (data) {
         .attr("fill", "none")
         .attr("stroke", "gray")
         .attr("stroke-width", 1)
-        //.style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
+        //.style("stroke-dasharray", ("4, 8"))
         .attr("d", d => lineGenerator(
             makeCoords(
                 xScaleYes(d[1]), //start at bar
                 width, //end at width of chart
-                yScale(d.data.id) + 14 
-                )//aligns with y tick marks
+                yScale(d.data.id) + 14
             )
+        )
         );
 
     //////AXESS///////
@@ -186,9 +175,7 @@ d3.json("/votes").then(function (data) {
         .attr("y", d => yScale(d.id) + 14)
         .attr("x", width + 10)
         .text(d => d.name) //bill ID
-        .attr("alignment-baseline", "middle")
-        .attr("stroke", "black")
-        .attr("stroke-width", .2)
+        .attr("alignment-baseline", "middle");
     //create x axis variable for right side and add to page
     var bottomAxisRight = d3.axisBottom(xScaleYes)
     svgYes.append("g")
