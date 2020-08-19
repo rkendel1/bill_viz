@@ -1,28 +1,7 @@
 
 #chart {
     margin-left: 30%;
-}
-
-
-.chartLabels {
-        margin-left: 30%;
-}
-
-.bottomLabels {
-    font-size: 14px;
-    font-family: sans-serif;
-    fill: black;
-    stroke: black;
-    stroke-width: .5;
-}
-
-#chartLabelTop {
-    font-size: 20px;
-    font-family: sans-serif;
-    fill: black;
-    stroke: black;
-    stroke-width: .5;
-    text-anchor: start;
+    padding-top: 0%;
 }
 
 .bill-labels {
@@ -33,6 +12,31 @@
     stroke: black;
     stroke-width: .2;
 }
+
+.chartLabels {
+    margin-left: 30%;
+}
+
+.bottomLabels {
+    font-size: 14px;
+    font-family: sans-serif;
+    fill: black;
+    stroke: black;
+    stroke-width: .5;
+}
+
+#chartLabelTop text {
+    font-size: 20px;
+    font-family: sans-serif;
+    fill: black;
+    stroke: black;
+    stroke-width: .5;
+}
+
+#legend {
+    margin-left: 30%;
+}
+
 .legend-text {
     font-size: 12px;
     font-family: sans-serif;
@@ -42,14 +46,9 @@
     text-align: end;
 }
 
-#legend {
-    margin-left: 30%;
-}
-
 .legendColors {
     margin-right: 60px;
 }
-
 
 .tooltip {
     position: absolute;
