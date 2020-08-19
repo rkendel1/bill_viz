@@ -53,14 +53,14 @@ d3.json("/votes").then(function (data) {
         .order(d3.stackorderDescending)
     //use generator to create data array
     var stackedSeriesYes = stackGenYes(votesYes);
-    console.log(stackedSeriesYes);
+    console.log(`stackedSeriesYes: ${stackedSeriesYes}`);
 
     //create stack generator for NO votes
     var stackGenNo = d3.stack()
         .keys(["demNo", "repNo", "indNo"]) //keys from votesNo
     //use generator to create data array
     var stackedSeriesNo = stackGenNo(votesNo);
-    console.log(stackedSeriesNo);
+    console.log(`stackedSeriesNo: ${stackedSeriesNo}`);
 
     /////////////SCALE FUNCTIONS////////////
 

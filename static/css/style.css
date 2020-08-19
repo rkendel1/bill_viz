@@ -11,6 +11,15 @@
         fill: black;
 }
 
+.legend-text {
+    font-size: 12px;
+    font-family: sans-serif;
+    fill: black;
+    stroke: black;
+    stroke-width: .2;
+    text-align: end;
+}
+
 #chart {
     margin-left: 30%;
 }

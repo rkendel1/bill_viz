@@ -55,36 +55,63 @@ var legend = d3.select("#legend")
     .attr("width", width)
     .attr("height", 100)
 
+var demLegSVG = legend.append("svg")
+    .attr("id", "demLegSVG")
+    .attr("width", 180);
+var repLegSVG = legend.append("svg")
+    .attr("id", "repLegSVG")
+    .attr("width", 180);
+var indLegSVG = legend.append("svg")
+    .attr("id", "indLegSVG")
+    .attr("width", 180);
+
 var colors = ["#086fad", "#c7001e", "#8A2BE2"]
 var parties = ["Democrat", "Republican", "Independent"]
 
-demLeg = ["Democrat", "#086fad"];
-repLeg = ["Republican", "#c7001e"];
-indLeg = ["Independent", "#8A2BE2"];
+var legRectX = 40;
+var legTextX = 60;
 
-var partyColors = []
-partyColors.push(demLeg, repLeg, indLeg)
-console.log(partyColors)
-
-
-legend.selectAll("svg")
-    .data(partyColors)
-    .enter()
-    .append("svg")
-    .attr("class", "legendSvgs")
-    .attr("width", 160)
-    .append("g")
-    .append("rect")
+demLegSVG.append("rect")
     .attr("width", 15)
     .attr("height", 15)
-    .attr("x", 80)
-    .style("fill", pair => pair[1]);
+    .attr("x",  legRectX)
+    .style("fill", colors[0]);
 
-var legendSvgs = d3.select(".legendSvgs")
+repLegSVG.append("rect")
+    .attr("width", 15)
+    .attr("height", 15)
+    .attr("x", legRectX)
+    .style("fill", colors[1]);
 
-legendSvgs.selectAll("text")
-    .data(pair => pair)
-    .append("text")
+indLegSVG.append("rect")
+    .attr("width", 15)
+    .attr("height", 15)
+    .attr("x", legRectX)
+    .style("fill", colors[2]);
+
+demLegSVG.append("text")
+    .classed("legend-text", true)
+    .attr("width", 100)
+    .attr("height", 35)
+    .attr("x", legTextX )
+    .attr("y", 12)
+    .html(parties[0]);
+
+repLegSVG.append("text")
+    .classed("legend-text", true)
+    .attr("width", 100)
+    .attr("height", 35)
+    .attr("x", legTextX )
+    .attr("y", 12)
+    .html(parties[1]);
+
+indLegSVG.append("text")
+    .classed("legend-text", true)
+    .attr("width", 100)
+    .attr("height", 35)
+    .attr("x", legTextX )
+    .attr("y", 12)
+    .html(parties[2]);
 
 
 ///////TOOL TIPS/////////
