@@ -133,9 +133,9 @@ d3.json("/votes").then(function (data) {
         .enter()
         .append("path")
         .attr("fill", "none")
-        .attr("stroke", "black")
+        .attr("stroke", "gray")
         .attr("stroke-width", 1)
-        .style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
+        //.style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
         .attr("d", d => lineGenerator(
             makeCoords(
                 0, //start at 0
@@ -153,9 +153,9 @@ d3.json("/votes").then(function (data) {
         .enter()
         .append("path")
         .attr("fill", "none")
-        .attr("stroke", "black")
+        .attr("stroke", "gray")
         .attr("stroke-width", 1)
-        .style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
+        //.style("stroke-dasharray", ("4, 8")) //second num is space b/w dashes
         .attr("d", d => lineGenerator(
             makeCoords(
                 xScaleYes(d[1]), //start at bar
@@ -183,12 +183,12 @@ d3.json("/votes").then(function (data) {
         //create text tag for each bill
         .append("text")
         //place along tick marks
-        .attr("y", d => yScale(d.id) + 18)
+        .attr("y", d => yScale(d.id) + 14)
         .attr("x", width + 10)
         .text(d => d.name) //bill ID
         .attr("alignment-baseline", "middle")
         .attr("stroke", "black")
-        .attr("stroke-width", .5)
+        .attr("stroke-width", .2)
     //create x axis variable for right side and add to page
     var bottomAxisRight = d3.axisBottom(xScaleYes)
     svgYes.append("g")

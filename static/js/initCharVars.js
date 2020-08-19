@@ -12,10 +12,10 @@ var chartLabelLeft = d3.select("#chartLabel")
     .attr("class", "chartLabels")
     .append("g")
     .attr("id", "chartLabelLeft")
-    .attr("transform", "translate(" + margin.left + "," + (margin.top - 12) + ")")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .append("text")
     .html("Votes Against")
-    .attr("x", width / 2)
+    .attr("x", (width - margin.right)/ 2)
     .attr("alignment-baseline", "bottom")
     .attr("stroke", "black")
     .attr("stroke-width", .5);
@@ -27,7 +27,7 @@ var chartLabelRight = d3.select("#chartLabel")
     .attr("class", "chartLabels")
     .append("g")
     .attr("id", "chartLabelRight")
-    .attr("transform", "translate(" + margin.left + "," + (margin.top - 12) + ")")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .append("text")
     .html("Votes For")
     .attr("x", (width - margin.right) / 2)
@@ -105,6 +105,7 @@ var mouseover = function (d) {
     //highlight circle mouse is on with a black border
     d3.select(this)
         .style("stroke", "black")
+        .style("stroke-width", 2)
 };
 
 //function make tool tips invisible
