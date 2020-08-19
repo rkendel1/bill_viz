@@ -67,7 +67,7 @@ d3.json("/votes").then(function (data) {
     //assign colors to parties
     var colorScale = d3.scaleOrdinal()
         .domain(["demYes", "repYes", "indYes"])
-        .range(["#086fad", "#c7001e", "#8A2BE2"]);
+        .range(colors);
 
     var yScale = d3.scaleBand()
         .domain(votesYes.map(d => d.id))
@@ -140,10 +140,11 @@ d3.json("/votes").then(function (data) {
             makeCoords(
                 0, //start at 0
                 xScaleNo(d[1]), //end at bar
-                yScale(d.data.id) + 17) //aligns with y tick marks
+                yScale(d.data.id) + 14 //aligns with y tick marks
+                )
             )
         );
-    
+
     d3.select("#svgYes").select("g")
         .append("g")
         .classed("line", true)
@@ -159,7 +160,8 @@ d3.json("/votes").then(function (data) {
             makeCoords(
                 xScaleYes(d[1]), //start at bar
                 width, //end at width of chart
-                yScale(d.data.id) + 17) //aligns with y tick marks
+                yScale(d.data.id) + 14 
+                )//aligns with y tick marks
             )
         );
 

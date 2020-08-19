@@ -1,25 +1,26 @@
-.bill-labels {
+text {
     font-size: 11px;
     font-family: sans-serif;
     text-anchor: start;
     fill: black;
 }
 
-rect:hover {
-    stroke: black; 
-}
-
-rect text {
-    font-size: 11px;
-    font-family: sans-serif;
-    text-anchor: middle;
-    fill: black;
-
-}
-
 #chart {
     margin-left: 30%;
 }
+
+#legend {
+    margin-left: 30%;
+}
+
+.legendColors {
+    margin-right: 60px;
+}
+
+#chartLabel {
+    margin-left: 30%;
+}
+
 
 .tooltip {
     position: absolute;
