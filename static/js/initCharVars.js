@@ -73,50 +73,54 @@ var indLegSVG = legend.append("svg")
 var colors = ["#086fad", "#c7001e", "#8A2BE2"]
 var parties = ["Democrat", "Republican", "Independent"]
 
-//x attribute of each rect and text tag
+//rect and text tag attributes
 var legRectX = 40;
+var legRectSize = 15;
 var legTextX = 60;
+var legTextY = 12;
+var legTextWidth = 100;
+var legTextHeight = 35;
 
 demLegSVG.append("rect")
-    .attr("width", 15)
-    .attr("height", 15)
+    .attr("width", legRectSize)
+    .attr("height", legRectSize)
     .attr("x",  legRectX)
     .style("fill", colors[0]);
 
 repLegSVG.append("rect")
-    .attr("width", 15)
-    .attr("height", 15)
+    .attr("width", legRectSize)
+    .attr("height", legRectSize)
     .attr("x", legRectX)
     .style("fill", colors[1]);
 
 indLegSVG.append("rect")
-    .attr("width", 15)
-    .attr("height", 15)
+    .attr("width", legRectSize)
+    .attr("height", legRectSize)
     .attr("x", legRectX)
     .style("fill", colors[2]);
 
 demLegSVG.append("text")
     .classed("legend-text", true)
-    .attr("width", 100)
-    .attr("height", 35)
+    .attr("width", legTextWidth )
+    .attr("height", legTextHeight)
     .attr("x", legTextX )
-    .attr("y", 12)
+    .attr("y", legTextY)
     .html(parties[0]);
 
 repLegSVG.append("text")
     .classed("legend-text", true)
-    .attr("width", 100)
-    .attr("height", 35)
+    .attr("width", legTextWidth )
+    .attr("height", legTextHeight)
     .attr("x", legTextX )
-    .attr("y", 12)
+    .attr("y", legTextY)
     .html(parties[1]);
 
 indLegSVG.append("text")
     .classed("legend-text", true)
-    .attr("width", 100)
-    .attr("height", 35)
+    .attr("width", legTextWidth )
+    .attr("height", legTextHeight)
     .attr("x", legTextX )
-    .attr("y", 12)
+    .attr("y", legTextY)
     .html(parties[2]);
 
 ///////TOOL TIPS/////////
