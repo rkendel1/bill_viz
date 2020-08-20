@@ -48,7 +48,7 @@ var chartLabelRight = d3.select("#chartLabelBottom")
     .append("text")
     .classed("bottomLabels", true)
     .html("Votes For")
-    .attr("x", width - 160)
+    .attr("x", width - 155)
 
 var chartLabelTop = d3.select("#chartLabelTop")
     .append("svg")
