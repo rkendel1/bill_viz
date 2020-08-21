@@ -139,12 +139,12 @@ indLegSVG.append("text")
 //create div tag to hold tool tips
 var toolTip = d3.select("#chart")
     .append("div")
-    .attr("class", "tooltip")
     .style("opacity", 0);
 
 //function to make tool tip div visible
-var mouseover = function (d) {
+var mouseoverRect = function (d) {
     toolTip
+        .attr("id", "rectTip")
         .html(`${d[1] - d[0]} votes `)
         .style("opacity", 1)
         .style("left", (d3.event.pageX) + "px")
@@ -153,6 +153,23 @@ var mouseover = function (d) {
     d3.select(this)
         .style("stroke", "black")
         .style("stroke-width", 2)
+};
+
+var mouseoverAxis = function (d) {
+    toolTip
+        .attr("id", "axisTip")
+        .html(
+            `<b>${d.name}</b> <br>
+            <b> Question: </b>${d.question} <br>
+            <b> Description: </b>${d.description}`
+            )
+        .style("opacity", 1)
+        .style("left", (d3.event.pageX + 60) + "px")
+        .style("top", (d3.event.pageY) + "px")
+    //highlight circle mouse is on with a black border
+    d3.select(this)
+        .style("stroke", "black")
+        .style("stroke-width", .5)
 };
 
 //function make tool tips invisible

@@ -61,14 +61,14 @@ d3.json("/votes").then(function (data) {
         .order(d3.stackorderDescending)
     //use generator to create data array
     var stackedSeriesYes = stackGenYes(votesYes);
-    console.log(`stackedSeriesYes: ${stackedSeriesYes}`);
+    console.log(stackedSeriesYes);
 
     //create stack generator for NO votes
     var stackGenNo = d3.stack()
         .keys(["demNo", "repNo", "indNo"]) //keys from votesNo
     //use generator to create data array
     var stackedSeriesNo = stackGenNo(votesNo);
-    console.log(`stackedSeriesNo: ${stackedSeriesNo}`);
+    console.log(stackedSeriesNo);
 
     ////////////////RECTANGLES////////////////
 
@@ -88,7 +88,7 @@ d3.json("/votes").then(function (data) {
         .attr('y', d => yScale(d.data.id)) //unique identifier (num of data points)
         .attr('height', 28) //width of bars
         //tool tips
-        .on("mouseover", mouseover)
+        .on("mouseover", mouseoverRect)
         .on("mouseout", mouseleave);
 
     //create g tags for each key in stackedSeriesNo
@@ -108,7 +108,7 @@ d3.json("/votes").then(function (data) {
         .attr('y', d => yScale(d.data.id)) //unique identifer (num of data points)
         .attr('height', 28) //width of bars
         //tool tips
-        .on("mouseover", mouseover)
+        .on("mouseover", mouseoverRect)
         .on("mouseout", mouseleave);
 
     //////LINES///////
@@ -175,7 +175,10 @@ d3.json("/votes").then(function (data) {
         .attr("y", d => yScale(d.id) + 14)
         .attr("x", width + 10)
         .text(d => d.name) //bill ID
-        .attr("alignment-baseline", "middle");
+        .attr("alignment-baseline", "middle")
+        .on("mouseover", mouseoverAxis)
+        .on("mouseout", mouseleave
+        );
     //create x axis variable for right side and add to page
     var bottomAxisRight = d3.axisBottom(xScaleYes)
     svgYes.append("g")
