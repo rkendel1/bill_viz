@@ -44,7 +44,7 @@ var chartLabelRight = d3.select("#chartLabelBottom")
     .attr("height", 25)
     .append("g")
     .attr("id", "chartLabelRight")
-    .attr("transform",`translate(${margin.right}, ${margin.top})`)
+    .attr("transform", `translate(${margin.right}, ${margin.top})`)
     .append("text")
     .classed("bottomLabels", true)
     .html("Votes For")
@@ -56,10 +56,10 @@ var chartLabelTop = d3.select("#chartLabelTop")
     .attr("height", 35)
     .attr("class", "chartLabels")
     .append("g")
-    .attr("transform",`translate(${margin.left}, ${margin.top})`)
+    .attr("transform", `translate(${margin.left}, ${margin.top})`)
     .append("text")
     .html("Number of Votes on Recent Bills by Party")
-    .attr("x", (width - margin.right)/2)
+    .attr("x", (width - margin.right) / 2)
     .attr("alignment-baseline", "bottom")
 
 ////////////////////////LEGEND//////////////////////////
@@ -92,10 +92,11 @@ var legTextY = 12;
 var legTextWidth = 100;
 var legTextHeight = 35;
 
+//colored squares
 demLegSVG.append("rect")
     .attr("width", legRectSize)
     .attr("height", legRectSize)
-    .attr("x",  legRectX)
+    .attr("x", legRectX)
     .style("fill", colors[0]);
 
 repLegSVG.append("rect")
@@ -110,27 +111,28 @@ indLegSVG.append("rect")
     .attr("x", legRectX)
     .style("fill", colors[2]);
 
+//party labels
 demLegSVG.append("text")
     .classed("legend-text", true)
-    .attr("width", legTextWidth )
+    .attr("width", legTextWidth)
     .attr("height", legTextHeight)
-    .attr("x", legTextX )
+    .attr("x", legTextX)
     .attr("y", legTextY)
     .html(parties[0]);
 
 repLegSVG.append("text")
     .classed("legend-text", true)
-    .attr("width", legTextWidth )
+    .attr("width", legTextWidth)
     .attr("height", legTextHeight)
-    .attr("x", legTextX )
+    .attr("x", legTextX)
     .attr("y", legTextY)
     .html(parties[1]);
 
 indLegSVG.append("text")
     .classed("legend-text", true)
-    .attr("width", legTextWidth )
+    .attr("width", legTextWidth)
     .attr("height", legTextHeight)
-    .attr("x", legTextX )
+    .attr("x", legTextX)
     .attr("y", legTextY)
     .html(parties[2]);
 
@@ -141,20 +143,21 @@ var toolTip = d3.select("#chart")
     .append("div")
     .style("opacity", 0);
 
-//function to make tool tip div visible
+//bar tips
 var mouseoverRect = function (d) {
     toolTip
         .attr("id", "rectTip")
-        .html(`${d[1] - d[0]} votes `)
+        .html(`${d[1] - d[0]} votes `) //num votes
         .style("opacity", 1)
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY) + "px")
-    //highlight circle mouse is on with a black border
     d3.select(this)
+        //creates border over moused over bar
         .style("stroke", "black")
         .style("stroke-width", 2)
 };
 
+//y tick tips
 var mouseoverAxis = function (d) {
     toolTip
         .attr("id", "axisTip")
@@ -162,12 +165,12 @@ var mouseoverAxis = function (d) {
             `<b>${d.name}</b> <br>
             <b> Question: </b>${d.question} <br>
             <b> Description: </b>${d.description}`
-            )
+        )
         .style("opacity", 1)
         .style("left", (d3.event.pageX + 60) + "px")
         .style("top", (d3.event.pageY) + "px")
-    //highlight circle mouse is on with a black border
     d3.select(this)
+        //bolds the moused over tick label
         .style("stroke", "black")
         .style("stroke-width", .5)
 };
@@ -176,11 +179,11 @@ var mouseoverAxis = function (d) {
 var mouseleave = function (d) {
     toolTip
         .style("opacity", 0) //hides tool tip
-        .style("left", "0px")
+        .style("left", "0px") //places far away from mouse
         .style("top", "0px")
     d3.select(this)
-        .style("stroke", "none") //removes border around rect
-};
+        .style("stroke", "none") //removes border or bolding
+}
 
 ////////////////////////LINES///////////////////////////////
 
@@ -200,7 +203,7 @@ var lineGenerator = d3.line();
 //assign colors to parties
 var colorScale = d3.scaleOrdinal()
     .domain(["demYes", "repYes", "indYes"])
-    .range(colors); //from initCharVars.js
+    .range(colors);
 
 //x scale for left side of chart
 var xScaleYes = d3.scaleLinear()

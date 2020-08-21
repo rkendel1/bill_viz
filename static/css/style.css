@@ -69,9 +69,8 @@
     height: 125px;
     padding: 10px;
     font: 12px sans-serif;
-    text-align: center;
+    text-align: left;
     color: black;
     background-color:white;
-    border: black solid 1px;
-    opacity: 0.5;
+    opacity: 1;
 }
