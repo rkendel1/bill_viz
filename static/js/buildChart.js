@@ -19,7 +19,9 @@ d3.json("/votes").then(function (data) {
         indNo = +d.independent.no
 
         //add all values to voteValues to assess range for scales (initCharVars.js)
-        voteValues.push(demYes, demNo, repYes, repNo, indYes, indNo);
+        voteValues.push(
+            demYes, demNo, repYes, repNo, indYes, indNo
+            );
 
         //push desired data to voteData arrays
         votesYes.push(
@@ -79,35 +81,34 @@ d3.json("/votes").then(function (data) {
         .data(stackedSeriesYes)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key)); //assign color by party (key)
+        //use colorScale func (initCharVars.js) to assign party colors
+        .style('fill', (d) => colorScale(d.key));
     selYes.selectAll('rect')
         .data(d => d)
         .join('rect')
-        .attr('width', d => xScaleYes(d[1]) - xScaleYes(d[0])) //length of bars
+        //substract previous bar in stack to get correct length
+        .attr('width', d => xScaleYes(d[1]) - xScaleYes(d[0]))
+        .attr('height', 28) //width of each bar
         .attr('x', d => xScaleYes(d[0])) //bar starting point
-        .attr('y', d => yScale(d.data.id)) //unique identifier (num of data points)
-        .attr('height', 28) //width of bars
+        .attr('y', d => yScale(d.data.id)) //unique identifier (num bars)
         //tool tips
         .on("mouseover", mouseoverRect)
         .on("mouseout", mouseleave);
 
-    //create g tags for each key in stackedSeriesNo
+    //same as above for NO series
     var selNo = d3.select("#svgNo")
         .select('g')
         .selectAll('g.seriesNo')
         .data(stackedSeriesNo)
         .join('g')
         .classed('series', true)
-        .style('fill', (d) => colorScale(d.key)); //assign color by party (key)
-    //create NO bars
+        .style('fill', (d) => colorScale(d.key));
     selNo.selectAll('rect')
         .data(d => d)
         .join('rect')
-        .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1])) //length of bars
-        .attr('x', d => xScaleNo(d[1])) //bar start point
-        .attr('y', d => yScale(d.data.id)) //unique identifer (num of data points)
-        .attr('height', 28) //width of bars
-        //tool tips
+        .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1]))
+        .attr('y', d => yScale(d.data.id))
+        .attr('height', 28)
         .on("mouseover", mouseoverRect)
         .on("mouseout", mouseleave);
 
@@ -117,13 +118,13 @@ d3.json("/votes").then(function (data) {
         .append("g")
         .classed("line", true)
         .selectAll("path")
-        .data(stackedSeriesNo[2]) //independent votes series (last series in stackedSeriesNo)
+        //use last bar in each stack
+        .data(stackedSeriesNo[2])
         .enter()
         .append("path")
         .attr("fill", "none")
         .attr("stroke", "gray")
         .attr("stroke-width", 1)
-        //.style("stroke-dasharray", ("4, 8")) // ("length of dash, space before next dash")
         .attr("d", d => lineGenerator(
             makeCoords(
                 0, //start at 0
@@ -144,7 +145,6 @@ d3.json("/votes").then(function (data) {
         .attr("fill", "none")
         .attr("stroke", "gray")
         .attr("stroke-width", 1)
-        //.style("stroke-dasharray", ("4, 8"))
         .attr("d", d => lineGenerator(
             makeCoords(
                 xScaleYes(d[1]), //start at bar
@@ -176,15 +176,18 @@ d3.json("/votes").then(function (data) {
         .attr("x", width + 10)
         .text(d => d.name) //bill ID
         .attr("alignment-baseline", "middle")
+        //tool tips
         .on("mouseover", mouseoverAxis)
         .on("mouseout", mouseleave
         );
+    
     //create x axis variable for right side and add to page
     var bottomAxisRight = d3.axisBottom(xScaleYes)
     svgYes.append("g")
         .classed("xAxis", true)
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxisRight)
+    
     //create x axis variable for left side and add to page
     var bottomAxisLeft = d3.axisBottom(xScaleNo)
     svgNo.append("g")
