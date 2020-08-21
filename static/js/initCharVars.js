@@ -198,7 +198,7 @@ function makeCoords(x, y, z) {
 //console.log(makeCoords(1,5))
 var lineGenerator = d3.line();
 
-//////SCALES//////////
+//////////////////////SCALES///////////////////////////////
 
 //assign colors to parties
 var colorScale = d3.scaleOrdinal()

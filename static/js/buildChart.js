@@ -2,7 +2,7 @@ var votesNo = [];
 var votesYes = [];
 var voteValues = [];
 
-/////////GET DATA/////////////
+//////////////////////GET DATA//////////////////////
 
 //access votes route in Flask app
 d3.json("/votes").then(function (data) {
@@ -48,14 +48,14 @@ d3.json("/votes").then(function (data) {
 
     console.log(`votesNo: ${votesNo}`)
 
+    //////////////////////SCALES/////////////////////////
 
-    //////SCALES//////////
     var yScale = d3.scaleBand()
         .domain(votesYes.map(d => d.id))
         .range([0, height])
         .padding(0.1);
 
-    /////////////STACK GENERATORS//////////////
+    //////////////////////STACK GENERATORS///////////////////
 
     //create stack generator for YES votes
     var stackGenYes = d3.stack()
@@ -72,7 +72,7 @@ d3.json("/votes").then(function (data) {
     var stackedSeriesNo = stackGenNo(votesNo);
     console.log(stackedSeriesNo);
 
-    ////////////////RECTANGLES////////////////
+    //////////////////////BARS///////////////////////
 
     //create g tags for each key in stackedSeriesYes
     var selYes = d3.select("#svgYes")
@@ -112,7 +112,7 @@ d3.json("/votes").then(function (data) {
         .on("mouseover", mouseoverRect)
         .on("mouseout", mouseleave);
 
-    //////LINES///////
+    /////////////////////////LINES///////////////////////////
 
     d3.select("#svgNo").select("g")
         .append("g")
@@ -154,7 +154,7 @@ d3.json("/votes").then(function (data) {
         )
         );
 
-    //////AXESS///////
+    ///////////////////////AXESS///////////////////////
 
     //create y axis variable
     var rightAxis = d3.axisRight(yScale)
