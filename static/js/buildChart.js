@@ -107,8 +107,9 @@ d3.json("/votes").then(function (data) {
         .data(d => d)
         .join('rect')
         .attr('width', d => xScaleNo(d[0]) - xScaleNo(d[1]))
-        .attr('y', d => yScale(d.data.id))
         .attr('height', 28)
+        .attr('x', d => xScaleNo(d[1])) //bar starting point
+        .attr('y', d => yScale(d.data.id))
         .on("mouseover", mouseoverRect)
         .on("mouseout", mouseleave);
 

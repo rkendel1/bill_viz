@@ -23,7 +23,7 @@ var svgYes = d3.select("#chart")
 
 ///////////////////CHART LABELS///////////////////////////
 
-//create text "Votes Against" below x axis
+//create text "Votes Against"
 var chartLabelLeft = d3.select("#chartLabelBottom")
     .append("svg")
     .attr("width", width)
@@ -37,7 +37,7 @@ var chartLabelLeft = d3.select("#chartLabelBottom")
     .html("Votes Against")
     .attr("x", 0)
 
-//create text "Votes For" below x axis
+//create text "Votes For"
 var chartLabelRight = d3.select("#chartLabelBottom")
     .append("svg")
     .attr("width", width)
