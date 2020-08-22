@@ -26,21 +26,36 @@ var svgYes = d3.select("#chart")
 //create text "Votes Against"
 var chartLabelLeft = d3.select("#chartLabelBottom")
     .append("svg")
-    .attr("width", width)
+    .attr("width", 90)
     .attr("height", 25)
-    .attr("class", "chartLabels")
+    .attr("class", "chartLabels") //left margin
     .append("g")
     .attr("id", "chartLabelLeft")
     .attr("transform", `translate(${margin.left}, ${margin.top})`)
     .append("text")
     .classed("bottomLabels", true)
     .html("Votes Against")
-    .attr("x", 0)
+    .attr("x", 0);
+
+var lineGenerator = d3.line();
+
+var lineArrow = d3.select("#chartLabelBottom")
+    .append("svg")
+    .attr("width", 300)
+    .attr("height", 25)
+    .append("g")
+    .attr("id", "lineArrow")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    .append("path")
+    .attr("fill", "none")
+    .attr("stroke", "gray")
+    .attr("stroke-width", 1)
+    .attr("d", lineGenerator([[0,0],[300,0]]));
 
 //create text "Votes For"
 var chartLabelRight = d3.select("#chartLabelBottom")
     .append("svg")
-    .attr("width", width)
+    .attr("width", 90)
     .attr("height", 25)
     .append("g")
     .attr("id", "chartLabelRight")
@@ -48,7 +63,6 @@ var chartLabelRight = d3.select("#chartLabelBottom")
     .append("text")
     .classed("bottomLabels", true)
     .html("Votes For")
-    .attr("x", width - 155)
 
 var chartLabelTop = d3.select("#chartLabelTop")
     .append("svg")
@@ -196,7 +210,6 @@ function makeCoords(x, y, z) {
     return coords
 };
 //console.log(makeCoords(1,5))
-var lineGenerator = d3.line();
 
 //////////////////////SCALES///////////////////////////////
 
